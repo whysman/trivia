@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import UserView from './UserView';
 import AdminView from './AdminView';
 
-export default function MainView({ keycloak }) {
-    const [userInfo, setUserInfo] = useState({});
-
-    useEffect(() => {
-        setUserInfo(keycloak.loadUserInfo());
-    }, [keycloak])
+export default function MainView({ userInfo }) {
 
     if (userInfo.roles && userInfo.roles.includes("trivia-admin")) {
         return (

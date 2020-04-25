@@ -1,39 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Keycloak from 'keycloak-js';
 
 import MainView from './MainView';
 import Logout from './Logout';
 
-class Secured extends Component {
+const keycloak = Keycloak('/keycloak.json');
 
-    constructor(props) {
-        super(props);
-        this.state = { keycloak: null, authenticated: false };
-    }
+const Secured = props => {
 
-    componentDidMount() {
-        const keycloak = Keycloak('/keycloak.json');
-        keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
-            this.setState({ keycloak: keycloak, authenticated: authenticated })
-        })
-    }
+    const [authenticated, setAuthenticated] = useState();
+    const [userInfo, setUserInfo] = useState({});
+    const [keycloakError, setKeycloakError] = useState();
 
-    render() {
-        if (this.state.keycloak) {
-            if (this.state.authenticated) {
-                return (
-                    <div>
-                        <MainView keycloak={this.state.keycloak} />
-                        <Logout keycloak={this.state.keycloak} />
-                    </div>
-                )
-            } else {
-                return (<div>Unable to authenticate!</div>)
-            }
+    useEffect(() => {
+        keycloak.init({ onLoad: 'login-required' })
+            .then(setAuthenticated)
+            .catch(err => {
+                console.err("Login Error", err);
+                setKeycloakError(err);
+            })
+
+    }, []);
+
+    useEffect(() => {
+        if (authenticated) {
+            setUserInfo(keycloak.loadUserInfo());
+        } else {
+            setUserInfo({})
         }
+
+    }, [authenticated])
+
+
+    if (authenticated) {
         return (
-            <div>Initializing Keycloak...</div>
-        );
+            <div>
+                <MainView userInfo={userInfo} />
+                <Logout keycloak={keycloak} />
+            </div>
+        )
+    } else if (keycloakError){
+        return (<div>Unable to authenticate!</div>)
+    } else {
+        return (<div>Loading...</div>)
     }
+    
 }
 export default Secured;
