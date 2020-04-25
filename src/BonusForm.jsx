@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 
 class BonusForm extends Component {
     constructor(props) {
@@ -19,20 +19,34 @@ class BonusForm extends Component {
         this.setState({ disabled: 'disabled' });
         event.preventDefault();
     }
-
     render() {
         return (
-            <form onSubmit={this.handleSubmit} name='bonus'>
-                <ol>
-                    <li><input type="text" value={this.state.answer1} disabled={this.state.disabled} onChange={this.handleAnswer1Change} /></li>
-                    <li><input type="text" value={this.state.answer2} disabled={this.state.disabled} onChange={this.handleAnswer2Change} /></li>
-                    <li><input type="text" value={this.state.answer3} disabled={this.state.disabled} onChange={this.handleAnswer3Change} /></li>
-                    <li><input type="text" value={this.state.answer4} disabled={this.state.disabled} onChange={this.handleAnswer4Change} /></li>
-                </ol>
-                <input type="submit" value="Submit" disabled={this.state.disabled} />
-            </form>
+            <div>
+                <p>Bonus Round</p>
+                <p>Fill out all fields before submitting</p>
+
+                <form onSubmit={this.handleSubmit} name='bonus'>
+                    <ol>
+                        <li><input type="text" value={this.state.answer1} disabled={this.state.disabled} onChange={this.handleAnswer1Change} /></li>
+                        <li><input type="text" value={this.state.answer2} disabled={this.state.disabled} onChange={this.handleAnswer2Change} /></li>
+                        <li><input type="text" value={this.state.answer3} disabled={this.state.disabled} onChange={this.handleAnswer3Change} /></li>
+                        <li><input type="text" value={this.state.answer4} disabled={this.state.disabled} onChange={this.handleAnswer4Change} /></li>
+                    </ol>
+                    <input type="submit" value="Submit" disabled={this.state.disabled} />
+                </form>
+            </div>
         );
-    }
+    };
 }
 
 export default BonusForm;
+
+const AnswerRow = (props) => {
+    const [answer, setAnswer] = useState()
+
+    const handleAnswerChange = (event) => { setAnswer(event.target.value); }
+    return (
+        <li>
+            <input type="text" value={answer} disabled={props.disabled} onChange={handleAnswerChange} />
+        </li>);
+}
