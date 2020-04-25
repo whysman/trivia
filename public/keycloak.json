@@ -1,0 +1,8 @@
+{
+  "realm": "trivia",
+  "auth-server-url": "http://www.whystech.com:8251/auth/",
+  "ssl-required": "external",
+  "resource": "trivia-client",
+  "public-client": true,
+  "confidential-port": 0
+}
