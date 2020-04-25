@@ -1,30 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class StandardForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { answer: '', wager: '', disabled: '' };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAnswerChange = this.handleAnswerChange.bind(this);
-        this.handleWagerChange = this.handleWagerChange.bind(this);
-    }
-    handleAnswerChange(event) { this.setState({answer: event.target.value}); }
-    handleWagerChange(event) { this.setState({wager: event.target.value}); }
-    handleSubmit(event) {
-        alert('A name was submitted: ' + event);
-        this.setState({ disabled: 'disabled' });
+const StandardForm = props => {
+
+    const [answer, setAnswer] = useState();
+    const [wager, setWager] = useState();
+    const [disabled, setDisabled] = useState(false);
+
+    const handleAnswerChange = event => { setAnswer(event.target.value); }
+    const handleWagerChange = event => { setWager(event.target.value); }
+    const handleSubmit = event => {
+        alert(`Submitted Answer: ${answer} Wager: ${wager}`);
+        setDisabled(true);
         event.preventDefault();
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit} name={this.props.type}>
-                <label>Answer: <input type="text" value={this.state.answer} disabled={this.state.disabled} onChange={this.handleAnswerChange} /></label>
-                <label>Wager: <input type="text" value={this.state.points} disabled={this.state.disabled} onChange={this.handleWagerChange} /></label>
-                <input type="submit" value="Submit" disabled={this.state.disabled} />
-            </form>
-        );
-    }
+    return (
+        <form onSubmit={handleSubmit} name={props.type}>
+            <label>Answer: <input type="text" value={answer} disabled={disabled} onChange={handleAnswerChange} /></label>
+            <label>Wager: $<input type="number" value={wager} disabled={disabled} onChange={handleWagerChange} min="1" step=".01" /></label>
+            <input type="submit" value="Submit" disabled={disabled} />
+        </form>
+    );
 }
 
 export default StandardForm;
