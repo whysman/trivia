@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import StandardForm from './StandardForm';
 import BonusForm from './BonusForm';
 
 const FinalRound = () => (
     <div>
         <p>Final Round</p>
-        <form>
-            <label>Answer: <input type="text" name="b1" /></label>
-            <label>Wager: <input type="text" name="b1" /></label>
-            <input type="submit" value="Submit" />
-        </form>
+        <StandardForm type="" />
     </div>
 );
 
-const StandardRound = ({type}) => (
+const StandardRound = ({ type }) => (
     <div>
         <p>Round {type}</p>
         <ol>
@@ -24,14 +20,13 @@ const StandardRound = ({type}) => (
     </div>
 );
 
-
 const Round = ({ type }) => {
     if (type === "bonus") {
         return (<BonusForm />);
     } else if (type === "final") {
         return (<FinalRound />);
     } else {
-        return (<StandardRound type={type}/>);
+        return (<StandardRound type={type} />);
     }
 }
 export default Round;
