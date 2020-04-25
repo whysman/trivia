@@ -17,7 +17,7 @@ const StandardForm = props => {
     return (
         <form onSubmit={handleSubmit} name={props.type}>
             <label>Answer: <input type="text" value={answer} disabled={disabled} onChange={handleAnswerChange} /></label>
-            <label>Wager: $<input type="number" value={wager} disabled={disabled} onChange={handleWagerChange} min="1" step=".01" /></label>
+            <label>Wager: <input type="number" value={wager} disabled={disabled} onChange={handleWagerChange} min="1" step=".01" /></label>
             <input type="submit" value="Submit" disabled={disabled} />
         </form>
     );
