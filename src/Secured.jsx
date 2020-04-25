@@ -22,9 +22,14 @@ const Secured = props => {
 
     }, []);
 
+    const fetchUser = async () => {
+        const info = await keycloak.loadUserInfo()
+        setUserInfo(info);
+    }
+
     useEffect(() => {
         if (authenticated) {
-            setUserInfo(keycloak.loadUserInfo());
+            fetchUser();
         } else {
             setUserInfo({})
         }
@@ -39,11 +44,11 @@ const Secured = props => {
                 <Logout keycloak={keycloak} />
             </div>
         )
-    } else if (keycloakError){
+    } else if (keycloakError) {
         return (<div>Unable to authenticate!</div>)
     } else {
         return (<div>Loading...</div>)
     }
-    
+
 }
 export default Secured;
