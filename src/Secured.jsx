@@ -4,7 +4,7 @@ import Keycloak from 'keycloak-js';
 import MainView from './MainView';
 import Logout from './Logout';
 
-const keycloak = Keycloak('/keycloak.json');
+const {init, loadUserInfo, logout } = Keycloak('/keycloak.json');
 
 const Secured = props => {
 
@@ -13,7 +13,7 @@ const Secured = props => {
     const [keycloakError, setKeycloakError] = useState();
 
     useEffect(() => {
-        keycloak.init({ onLoad: 'login-required' })
+        init({ onLoad: 'login-required' })
             .then(setAuthenticated)
             .catch(err => {
                 console.err("Login Error", err);
@@ -23,7 +23,7 @@ const Secured = props => {
     }, []);
 
     const fetchUser = async () => {
-        const info = await keycloak.loadUserInfo()
+        const info = await loadUserInfo()
         setUserInfo(info);
     }
 
@@ -31,7 +31,8 @@ const Secured = props => {
         if (authenticated) {
             fetchUser();
         } else {
-            setUserInfo({})
+            setUserInfo({});
+            setAuthenticated(false);
         }
 
     }, [authenticated])
@@ -41,7 +42,7 @@ const Secured = props => {
         return (
             <div>
                 <MainView userInfo={userInfo} />
-                <Logout keycloak={keycloak} />
+                <Logout logout={logout} />
             </div>
         )
     } else if (keycloakError) {
