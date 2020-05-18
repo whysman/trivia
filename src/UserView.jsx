@@ -4,7 +4,6 @@ import Round from './Round';
 const UserView = ({ userInfo }) => {
 
     const categories = ["1", "2", "3", "bonus", "4", "5", "6", "final"];
-    console.log("User info", userInfo);
     return (
         <div className="UserView">
             <p>Name: {userInfo.given_name}</p>

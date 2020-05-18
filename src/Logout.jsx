@@ -1,15 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
 
-const Logout = ({history, keycloak}) => {
+const Logout = ({history, logout}) => {
 
-    const logout = () => {
+    const handleLogout = () => {
         history.push('/');
-        keycloak.logout();
+        logout();
     };
 
     return (
-        <button onClick={logout}>
+        <button onClick={handleLogout}>
             Logout
         </button>
     );
